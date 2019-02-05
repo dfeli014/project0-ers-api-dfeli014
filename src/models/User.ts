@@ -9,7 +9,7 @@ export class User {
     email: string; // not null
     role: Role; // not null
 
-    constructor(id?: number, username?: string, password?: string, firstName?: string, lastName?: string, 
+    constructor(id?: number, username?: string, password?: string, firstName?: string, lastName?: string,
         email?: string, role?: Role) {
         this.userId = id;
         this.username = username;

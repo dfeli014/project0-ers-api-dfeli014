@@ -1,9 +1,9 @@
 import express from 'express';
 import session from 'express-session';
 import bodyParser from 'body-parser';
-import * as UserDao from '../src/dao/user-dao';
-
-
+import { userRouter } from './routers/user.router';
+import { reimbursementRouter } from './routers/reimbursements.router';
+import { loginRouter } from './routers/login.router';
 
 // App is the set up for Express server
 const app = express();
@@ -19,20 +19,6 @@ const sess =  {
 // Use of Sessions when the requests to server is made
 app.use(session(sess));
 
-// Set up body parser to convert JSON body to JS object and attach to req
-app.use(bodyParser.json());
-
-// Routers
-app.get('/users/:id', async (req, res) => {
-    const users = await UserDao.findById(req.params.id);
-    res.json(users);
-});
-
-app.patch('/users', async (req, res) => {
-    const user = await UserDao.updateUserById(req.body);
-    res.json(user);
-});
-
 // Create logging middleware
 app.use((req, res, next) => {
     console.log('headers: ', req.headers);
@@ -40,6 +26,14 @@ app.use((req, res, next) => {
     and method: ${req.method}`);
     next(); // Will pass the request on to search for the next piece of middleware
 });
+
+// Set up body parser to convert JSON body to JS object and attach to req
+app.use(bodyParser.json());
+
+// Routers to Endpoints
+app.use('/login', loginRouter);
+app.use('/users', userRouter);
+app.use('/reimbursements', reimbursementRouter);
 
 // Port that's being listened on and printed to the console
 app.listen(3000);
