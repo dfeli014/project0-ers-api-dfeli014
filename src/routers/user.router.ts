@@ -1,4 +1,4 @@
-import {Request, Response} from 'express';
+import { Request, Response } from 'express';
 import express from 'express';
 import * as UserDao from '../dao/user-dao';
 import { managerMiddleware, adminOnlyMiddleware } from '../middleware/auth.middleware';

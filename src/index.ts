@@ -19,6 +19,16 @@ const sess =  {
 // Use of Sessions when the requests to server is made
 app.use(session(sess));
 
+// allow cross origins
+app.use((req, resp, next) => {
+    (process.env.MOVIE_API_STAGE === 'prod')
+      ? resp.header('Access-Control-Allow-Origin', process.env.DEMO_APP_URL)
+      : resp.header('Access-Control-Allow-Origin', `${req.headers.origin}`);
+    resp.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    resp.header('Access-Control-Allow-Credentials', 'true');
+    next();
+});
+
 // Create logging middleware
 app.use((req, res, next) => {
     console.log('headers: ', req.headers);

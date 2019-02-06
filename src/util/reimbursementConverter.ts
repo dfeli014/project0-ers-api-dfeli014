@@ -1,5 +1,5 @@
-import { SqlReimbursement, SqlReimbursementStatus, SqlReimbursementType } from '../dto/SqlReimbursement';
-import { Reimbursement, ReimbursementType, ReimbursementStatus } from '../models/Reimbursement';
+import { SqlReimbursement, SqlReimbursementStatus, SqlReimbursementType, SqlFullyJoinedReimbursement } from '../dto/SqlReimbursement';
+import { Reimbursement, ReimbursementType, ReimbursementStatus, FullyJoinedReimbursement } from '../models/Reimbursement';
 
 export function reimbursementConverter(reimbursement: SqlReimbursement) {
     return new Reimbursement(reimbursement.reimbursementid, reimbursement.author,
@@ -14,4 +14,11 @@ export function reimbursementTypeConverter(reimbursementType: SqlReimbursementTy
 
 export function reimbursementStatusConverter(reimbursementStatus: SqlReimbursementStatus) {
     return new ReimbursementStatus(reimbursementStatus.statusid, reimbursementStatus.status);
+}
+
+export function fullyJoinedReimbursementConverter(fullyJoined: SqlFullyJoinedReimbursement) {
+    return new FullyJoinedReimbursement(fullyJoined.reimbursementid, fullyJoined.author, fullyJoined.amount, fullyJoined.dateSubmitted,
+        fullyJoined.dateResolved, fullyJoined.description, fullyJoined.resolver, fullyJoined.status, fullyJoined.type, fullyJoined.userid,
+        fullyJoined.username, fullyJoined.password, fullyJoined.firstname, fullyJoined.lastname, fullyJoined.email, fullyJoined.user_role,
+        fullyJoined.roleid, fullyJoined.statusid, fullyJoined.typeid);
 }

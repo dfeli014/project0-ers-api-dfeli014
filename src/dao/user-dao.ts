@@ -76,10 +76,10 @@ export async function updateUserById(req): Promise<User> {
  */
 export async function findByUsernameAndPassword(username: string, password: string): Promise<User> {
     const client = await connectionPool.connect();
-
     try {
-        const user =  await client.query(`SELECT * FROM project0.user u WHERE u.username=$1 AND password=$2`,
+        const user = await client.query(`SELECT * FROM project0.user u WHERE u.username=$1 AND password=$2`,
         [username, password]);
+
         return userConverter(user.rows[0]);
     } finally {
         client.release();

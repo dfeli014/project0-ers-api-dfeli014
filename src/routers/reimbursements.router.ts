@@ -57,3 +57,15 @@ reimbursementRouter.patch('', [managerMiddleware, async (req, res) => {
         res.sendStatus(500);
     }
 }]);
+
+/**
+ * Find all reimbursements
+ */
+reimbursementRouter.get('/all', [managerMiddleware, async (req, res) => {
+try {
+    const reimbursements = await ReimbursementDao.findAllReimbursements();
+    res.json(reimbursements);
+} catch (error) {
+    console.log(error);
+}
+}]);

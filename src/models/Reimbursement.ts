@@ -42,3 +42,66 @@ export class ReimbursementType {
         this.type = type;
     }
 }
+
+export class FullyJoinedReimbursement {
+    reimbursementid: number;
+    author: number;
+    amount: number;
+    dateSubmitted: string;
+    dateResolved: string;
+    description: string;
+    resolver: number;
+    status: number;
+    type: number;
+    userid: number;
+    username: string;
+    password: string;
+    firstname: string;
+    lastname: string;
+    email: string;
+    user_role: string;
+    roleid: number;
+    statusid: number;
+    typeid: number;
+
+    constructor(reimbursementid?: number,
+        author?: number,
+        amount?: number,
+        dateSubmitted?: string,
+        dateResolved?: string,
+        description?: string,
+        resolver?: number,
+        status?: number,
+        type?: number,
+        userid?: number,
+        username?: string,
+        password?: string,
+        firstname?: string,
+        lastname?: string,
+        email?: string,
+        user_role?: string,
+        roleid?: number,
+        statusid?: number,
+        typeid?: number
+    ) {
+        this.reimbursementid = reimbursementid;
+        this.author = author;
+        this.amount = amount;
+        this.dateSubmitted = dateSubmitted;
+        this.dateResolved = dateResolved;
+        this.description = description;
+        this.resolver = resolver;
+        this.status = status;
+        this.type = type;
+        this.userid = userid;
+        this.username = username;
+        this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.user_role = user_role;
+        this.roleid = roleid;
+        this.statusid = statusid;
+        this.typeid = typeid;
+    }
+}
