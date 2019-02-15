@@ -1,4 +1,3 @@
-import { Request, Response} from 'express';
 import express from 'express';
 import * as UserDao from '../dao/user-dao';
 

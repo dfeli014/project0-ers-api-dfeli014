@@ -1,4 +1,5 @@
 import { Role } from '../models/Role';
+import { SqlRole } from './SqlRole';
 
 export class SqlUser {
     userid = 0;
@@ -7,5 +8,6 @@ export class SqlUser {
     firstname = '';
     lastname = '';
     email = '';
-    role = new Role;
+    roleid = 0;
+    role = '';
 }

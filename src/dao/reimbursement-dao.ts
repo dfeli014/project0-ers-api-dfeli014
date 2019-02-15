@@ -1,7 +1,6 @@
 import { Reimbursement, FullyJoinedReimbursement } from '../models/Reimbursement';
 import { connectionPool } from '../util/connection-util';
 import { reimbursementConverter, fullyJoinedReimbursementConverter } from '../util/reimbursementConverter';
-import { SqlFullyJoinedReimbursement } from '../dto/SqlReimbursement';
 
 /**
  * Retrieve Reimbursements by the statusId given in URL
@@ -13,15 +12,10 @@ export async function findReimbursementsById(id: number): Promise<Reimbursement[
     try {
         const reimburseResults = await client.query(`SELECT * FROM project0.reimbursement r
         LEFT JOIN project0.reimbursement_status rs ON r.status = rs.statusid
-        LEFT JOIN project0.reimbursement_type rt ON r.type = rt.typeid
-        LEFT JOIN project0.user u ON r.author = u.userid AND r.resolver = u.userid
          WHERE r.status = $1 ORDER BY r.datesubmitted ASC`, [statusId]);
 
         reimburseResults.rows.forEach((newUser) => {
-            const date1 = new Date(reimburseResults.rows[0].datesubmitted);
-            const date2 = new Date(reimburseResults.rows[0].dateresolved);
-            newUser.dateSubmitted = date1.toString();
-            newUser.dateResolved = date2.toString();
+          
             const user = reimbursementConverter(newUser);
             reimbursements.push(user);
         });
@@ -46,10 +40,6 @@ export async function findReimbursementsByUser(id: number): Promise<Reimbursemen
         r.author=$1`, [userId]);
 
         results.rows.forEach((newUser) => {
-            const date1 = new Date(results.rows[0].datesubmitted);
-            const date2 = new Date(results.rows[0].dateresolved);
-            newUser.dateSubmitted = date1.toString();
-            newUser.dateResolved = date2.toString();
             const user = reimbursementConverter(newUser);
             reimbursements.push(user);
         });
@@ -67,8 +57,8 @@ export async function submitReimbursement(req): Promise<Reimbursement> {
 
     const author = req.author;
     const amount = req.amount;
-    const dateSubmitted = req.dateSubmitted;
-    const dateResolved = req.dateResolved;
+    const dateSubmitted = req.datesubmitted;
+    const dateResolved = req.dateresolved;
     const description = req.description;
     const resolver = req.resolver;
     const status = req.status;
@@ -96,8 +86,8 @@ export async function updateReimbursement(req): Promise<Reimbursement> {
     const reimburseId = req.reimbursementId || oldReimburse.reimbursementId;
     const author = req.author || oldReimburse.author;
     const amount = req.amount || oldReimburse.amount;
-    const dateSubmitted = req.dateSubmitted || oldReimburse.dateSubmitted;
-    const dateResolved = req.dateResolved || oldReimburse.dateResolved;
+    const dateSubmitted = req.datesubmitted || oldReimburse.datesubmitted;
+    const dateResolved = req.dateresolved || oldReimburse.dateresolved;
     const description = req.description || oldReimburse.description;
     const resolver = req.resolver || oldReimburse.resolver;
     const status = req.status || oldReimburse.status;
@@ -108,10 +98,6 @@ export async function updateReimbursement(req): Promise<Reimbursement> {
         datesubmitted=$3, dateresolved=$4, description=$5, resolver=$6, status=$7, "type"=$8 WHERE reimbursementid=$9
         returning *`, [author, amount, dateSubmitted, dateResolved, description, resolver, status, type, reimburseId]);
 
-        const date1 = new Date(result.rows[0].dateSubmitted);
-        const date2 = new Date(result.rows[0].dateResolved);
-        result.rows[0].dateSubmitted = date1.toString();
-        result.rows[0].dateResolved = date2.toString();
         const reimburse = reimbursementConverter(result.rows[0]);
         return reimburse;
     } finally {
@@ -127,10 +113,10 @@ export async function findAllReimbursements(): Promise<FullyJoinedReimbursement[
     const list = [];
 
     try {
-        const allReimbursements = await client.query(`select * from project0.reimbursement r 
-        left join project0."user" u on r.author = u.userid 
-        left join project0.role rl on u."role" = rl.roleid 
-        left join project0.reimbursement_status rs on rs.statusid = r.status 
+        const allReimbursements = await client.query(`select * from project0.reimbursement r
+        left join project0."user" u on r.author = u.userid
+        left join project0.role rl on u."role" = rl.roleid
+        left join project0.reimbursement_status rs on rs.statusid = r.status
         left join project0.reimbursement_type rt on rt.typeid = r."type" order by r.reimbursementid asc;`);
 
         allReimbursements.rows.forEach((element) => {
@@ -152,10 +138,6 @@ export async function findReimbursementByReimbursementId(id: number) {
 
     try {
         const reimburse = await client.query(`SELECT * FROM project0.reimbursement WHERE reimbursementid=$1`, [id]);
-        const date1 = new Date(reimburse.rows[0].datesubmitted);
-        const date2 = new Date(reimburse.rows[0].dateresolved);
-        reimburse.rows[0].dateSubmitted = date1.toString();
-        reimburse.rows[0].dateResolved = date2.toString();
         const res = reimbursementConverter(reimburse.rows[0]);
         return res;
     } finally {

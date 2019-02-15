@@ -3,8 +3,8 @@ export class SqlReimbursement {
     reimbursementid = 0;
     author = 0;
     amount = 0;
-    dateSubmitted = '';
-    dateResolved = '';
+    datesubmitted = '';
+    dateresolved = '';
     description = '';
     resolver = 0;
     status = 0;
@@ -25,8 +25,8 @@ export class SqlFullyJoinedReimbursement {
     reimbursementid = 0;
     author = 0;
     amount = 0;
-    dateSubmitted = '';
-    dateResolved = '';
+    datesubmitted = '';
+    dateresolved = '';
     description = '';
     resolver = 0;
     status = 0;
@@ -37,7 +37,7 @@ export class SqlFullyJoinedReimbursement {
     firstname = '';
     lastname = '';
     email = '';
-    user_role = '';
+    role = '';
     roleid = 0;
     statusid = 0;
     typeid = 0;

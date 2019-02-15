@@ -3,7 +3,7 @@ import { Reimbursement, ReimbursementType, ReimbursementStatus, FullyJoinedReimb
 
 export function reimbursementConverter(reimbursement: SqlReimbursement) {
     return new Reimbursement(reimbursement.reimbursementid, reimbursement.author,
-        reimbursement.amount, reimbursement.dateSubmitted, reimbursement.dateResolved
+        reimbursement.amount, reimbursement.datesubmitted, reimbursement.dateresolved
         , reimbursement.description, reimbursement.resolver, reimbursement.status
         , reimbursement.type);
 }
@@ -17,8 +17,8 @@ export function reimbursementStatusConverter(reimbursementStatus: SqlReimburseme
 }
 
 export function fullyJoinedReimbursementConverter(fullyJoined: SqlFullyJoinedReimbursement) {
-    return new FullyJoinedReimbursement(fullyJoined.reimbursementid, fullyJoined.author, fullyJoined.amount, fullyJoined.dateSubmitted,
-        fullyJoined.dateResolved, fullyJoined.description, fullyJoined.resolver, fullyJoined.status, fullyJoined.type, fullyJoined.userid,
-        fullyJoined.username, fullyJoined.password, fullyJoined.firstname, fullyJoined.lastname, fullyJoined.email, fullyJoined.user_role,
+    return new FullyJoinedReimbursement(fullyJoined.reimbursementid, fullyJoined.author, fullyJoined.amount, fullyJoined.datesubmitted,
+        fullyJoined.dateresolved, fullyJoined.description, fullyJoined.resolver, fullyJoined.status, fullyJoined.type, fullyJoined.userid,
+        fullyJoined.username, fullyJoined.password, fullyJoined.firstname, fullyJoined.lastname, fullyJoined.email, fullyJoined.role,
         fullyJoined.roleid, fullyJoined.statusid, fullyJoined.typeid);
 }

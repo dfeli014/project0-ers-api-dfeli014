@@ -44,7 +44,7 @@ export async function findById(id: number): Promise<User> {
  * Update an user by id, with whatever fields are given
  */
 export async function updateUserById(req): Promise<User> {
-    if (typeof(req.userId) !== 'number') {
+    if (typeof(req.userId) !== 'number' || req.userId < 0) {
         return undefined;
     } else {
         const user = await findById(req.userId);
@@ -56,6 +56,7 @@ export async function updateUserById(req): Promise<User> {
         const firstname = req.firstName || user.firstName;
         const lastname = req.lastName || user.lastName;
         const email = req.email || user.email;
+        const roleid = req.roleid || user.roleid;
         const role = req.role || user.role;
 
         try {
@@ -77,10 +78,13 @@ export async function updateUserById(req): Promise<User> {
 export async function findByUsernameAndPassword(username: string, password: string): Promise<User> {
     const client = await connectionPool.connect();
     try {
-        const user = await client.query(`SELECT * FROM project0.user u WHERE u.username=$1 AND password=$2`,
+        const user = await client.query(`SELECT * FROM project0.user u LEFT JOIN
+        project0.role ON project0.role.roleid = u.role WHERE u.username=$1 AND password=$2`,
         [username, password]);
 
-        return userConverter(user.rows[0]);
+        const newUser = userConverter(user.rows[0]);
+
+        return newUser;
     } finally {
         client.release();
     }
